@@ -18,18 +18,37 @@ app.get('/kudosboards/:id', async(req, res) => {
 })
 
 app.get('/kudosboards', async(req, res) => {
-    const filters = {}
-    if(req.query.category){
-        filters.category = req.query.category;}
+    const {category, search} = req.query;
+    let queryOptions = {}
+    if(category && search){
+        queryOptions.where = {
+            category: category,
+            OR: [
+                {title: {contains: search, mode: 'insensitive'}},
+                {author: {contains: search, mode: 'insensitive'}},
+                {imageUrl : {contains: search, mode: 'insensitive'}}
+            ]
+        }
+    }
+    else if(category){
+        queryOptions.where = {category: category};
+    }
+    else if (search){
+        queryOptions.where = {
+            OR: [
+                {title: {contains: search, mode: 'insensitive'}},
+                {author: {contains: search, mode: 'insensitive'}},
+                {imageUrl : {contains: search, mode: 'insensitive'}}
+            ]
+        };
+    }
     try{
-        const kudocards = await prisma.KudosBoard.findMany({
-        where: filters
-    });
+        const kudocards = await prisma.KudosBoard.findMany(queryOptions);
     res.status(200).json(kudocards)
      }
     catch(error){
         console.error(error)
-        res.status(500).send('Failed to fetch events');
+        res.status(500).send('Failed to fetch kudos boards');
     }
 })
 

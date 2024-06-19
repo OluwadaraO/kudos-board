@@ -18,4 +18,15 @@ model KudosBoard{
   title String
   category String
   author String
+  card KudoCard[]
+}
+
+model KudoCard{
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  imgUrl String
+  author String
+  boardId Int
+  board KudosBoard @relation(fields: [boardId], references:[id])
 }
