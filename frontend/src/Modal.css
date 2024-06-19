@@ -1,0 +1,47 @@
+.modal-overlay{
+    color: black;
+    border: 1px solid black;
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 400px; /* Location of the box */
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.modal-container{
+    background-color: #fefefe; /* White w/ opacity */
+    margin: auto; /* Center horizontally */
+    padding: 20px; /* Pad the content */
+    border: 1px solid #888; /* Add a subtle border */
+    width: 80%; /* Set the width */
+    max-width: 600px; /* Maximum width */
+    width: 25%;
+    height: 45%;
+    top: 50%;
+    left: 50%;
+}
+.closeButton{
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.closeButton:hover,.closeButton:focus{
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.closeButton:hover{
+    color: black;
+}
+.category{
+    padding-bottom: 30px;
+    padding-top: 30px;
+}
+.submitButton{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
