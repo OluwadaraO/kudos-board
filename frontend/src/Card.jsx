@@ -1,4 +1,3 @@
-import './Card.css';
 function Card({title, description, imgUrl, author, id, onDelete, upVote, onUpVote, onComment}){
     return(
         <div className='kudos-card'>

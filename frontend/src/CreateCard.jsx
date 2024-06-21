@@ -1,4 +1,3 @@
-import './CreateCard.css'
 import {useState} from 'react'
 function CreateCard({boardId, closeCard, onCreate}){
     const [title, setTitle] = useState('')
