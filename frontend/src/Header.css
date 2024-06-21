@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: white;
+    background-color: #6b9080;
     border-bottom: 1px solid white;
 }
 .logo{
@@ -13,4 +13,5 @@
 .title{
     font-size: 24px;
     color:#333333;
+    text-align: center;
 }

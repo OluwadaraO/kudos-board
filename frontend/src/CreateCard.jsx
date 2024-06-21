@@ -25,7 +25,8 @@ function CreateCard({boardId, closeCard, onCreate}){
             description: description,
             imgUrl: selectedGIF,
             author: author,
-            boardId:parseInt(boardId)
+            upVote : 0,
+            boardId: parseInt(boardId)
         }
         onCreate(newCard);
     };

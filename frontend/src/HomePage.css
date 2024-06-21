@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 } */
+.homepage-body{
+  background-color: #f6fff8;
+}
+.kudos-boards{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}

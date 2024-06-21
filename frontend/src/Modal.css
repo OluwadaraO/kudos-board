@@ -10,18 +10,25 @@
     bottom: 0;
     overflow: auto; /* Enable scroll if needed */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    display: flex;
+    flex-wrap: wrap;
 }
 .modal-container{
-    background-color: #fefefe; /* White w/ opacity */
+    background-color: #6B9080; /* White w/ opacity */
     margin: auto; /* Center horizontally */
     padding: 20px; /* Pad the content */
     border: 1px solid #888; /* Add a subtle border */
-    width: 80%; /* Set the width */
+    width: 100%; /* Set the width */
     max-width: 600px; /* Maximum width */
     width: 25%;
     height: 45%;
+    overflow: auto;
     top: 50%;
     left: 50%;
+}
+.modal-content {
+    overflow-y: auto;
+    max-height: 80vh; /* Adjust based on your design */
 }
 .closeButton{
   color: #aaa;
@@ -44,4 +51,7 @@
 .submitButton{
     margin-top: 30px;
     margin-bottom: 30px;
+}
+.create-a-new-board{
+    text-align: center;
 }

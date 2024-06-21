@@ -11,7 +11,6 @@ function HomePage() {
 
   const handleOpenModal = () => {
       setIsModalOpen(true);
-      console.log
   }
   const handleCloseModal = () => {
       setIsModalOpen(false);
@@ -110,10 +109,13 @@ function HomePage() {
   })
 
   return (
-    <div>
+    <div className='homepage-body'>
       <Header/>
       <Banner openModal={handleOpenModal} onCategorySelect={handleCategorySelect} onSearchChange={handleSearchChange} searchText={searchText}/>
-      {boards}
+      <div className='kudos-boards'>
+        {boards}
+      </div>
+
       {isModalOpen && <Modal closeModal={handleCloseModal} onCreate={handleCreateKudosBoard}/>}
       <Footer/>
     </div>

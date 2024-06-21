@@ -17,7 +17,23 @@ app.get('/kudosboards/:id', async(req, res) => {
         });
         res.json(boardDetails)
 })
-
+ app.put('/card/:id/upvote', async (req, res) => {
+    const { id } = req.params;
+    try {
+      const updatedCard = await prisma.KudoCard.update({
+        where: { id: parseInt(id) },
+        data: {
+          upVote: {
+            increment: 1
+          }
+        }
+      });
+      res.status(200).json(updatedCard);
+    } catch (error) {
+      console.error('Error upvoting card:', error);
+      res.status(500).json({ error: 'Failed to upvote card' });
+    }
+  });
 app.get('/kudosboards/:id/card', async(req, res) => {
     const {id} = req.params
     console.log("getting id/card")
@@ -115,7 +131,7 @@ app.post('/kudosboards' , async(req, res) => {
     try{
         const response = await fetch(`https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_API}`)
         const gifData = await response.json();
-        const imageURL = gifData.data.images.downsized.url;
+        const imageURL = gifData.data.images.original.url;
 
         const newKudosBoard = await prisma.KudosBoard.create({
             data: {

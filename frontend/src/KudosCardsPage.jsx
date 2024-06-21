@@ -30,9 +30,20 @@ function KudosCardsPage(){
         })
         .catch(error => console.error('Failed to fetch board details: ', error))
     }
-    // useEffect(() => {
-    //     fetchCardDetails(id)
-    // }, [id])
+    const handleUpVote = (cardId) => {
+        fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/card/${cardId}/upvote`,
+        {
+            method: "PUT",
+            headers:{
+                "Content-Type": "application/json",
+            },
+        })
+        .then(response => response.json())
+        .then(updatedCard=> {
+            setCardDetails(cardDetails.map(cardDetails => cardDetails.id === cardId ? updatedCard : cardDetails));
+        })
+        .catch(error => console.error('Error upvoting card: ', error));
+    }
 
     const handleCreateCard = (newCard) => {
         fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/kudosboards/${id}/card`,
@@ -80,7 +91,6 @@ function KudosCardsPage(){
     }
 
 
-    console.log("carddetails",cardDetails)
     const cards = cardDetails.map(cardDetail => {
         return(
             <Card
@@ -90,8 +100,10 @@ function KudosCardsPage(){
             description={cardDetail.description}
             imgUrl={cardDetail.imgUrl}
             author = {cardDetail.author}
+            upVote = {cardDetail.upVote}
             boardId = {cardDetail.boardId}
             onDelete = {() => handleDeleteCard(cardDetail.id)}
+            onUpVote = {handleUpVote}
             />
         )
     })
@@ -111,10 +123,12 @@ function KudosCardsPage(){
     return(
         <div>
             <Header/>
-           <h1>{boardDetails.title}</h1>
+           <h1 className='title'>{boardDetails.title}</h1>
             <button onClick={handleBackToHomePage}>Go Back</button>
             <button onClick={handleOpenCard}>Create New Card</button>
-            {cards}
+            <div className='kudos-cards' style={{display: "flex", flexWrap: "wrap", justifyContent: "space-around"}}>
+                {cards}
+            </div>
             {isModalOpen && <CreateCard boardId = {id} closeCard={handleCloseCard} onCreate={handleCreateCard}/>}
             <Footer/>
         </div>
