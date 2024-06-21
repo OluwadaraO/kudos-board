@@ -162,6 +162,40 @@ app.delete('/kudosboards/:id', async(req, res) => {
 }
 })
 
+app.post('/card/:id/comment', async(req, res) => {
+    const {id} = req.params;
+    const {author, content} = req.body;
+    try{
+        const newComment = await prisma.Comment.create({
+            data: {
+                content,
+                author,
+                card : {connect: {id: parseInt(id)}}
+            }
+        });
+        res.status(201).json(newComment)
+    }
+    catch(error) {
+        console.log('Error creating comment: ', error);
+        res.status.apply(500).json({error: 'Failed to create comment'})
+    }
+})
+
+app.get('/card/:id/comment', async(req, res) => {
+    const {id} = req.params;
+    try{
+        const comment = await prisma.Comment.findMany({
+            where: {cardId : parseInt(id)},
+            orderBy: {
+                createdAt: 'desc'
+            }
+        })
+    } catch(error) {
+        console.log('Error getting comment: ', error);
+        res.status.apply(500).json({error: 'Failed to fetch comment'})
+    }
+})
+
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)

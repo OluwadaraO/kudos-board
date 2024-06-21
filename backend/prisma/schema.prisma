@@ -28,6 +28,16 @@ model KudoCard{
   imgUrl String
   author String
   upVote Int @default(0)
+  comments Comment[]
   boardId Int
   board KudosBoard @relation(fields: [boardId], references:[id], onDelete: Cascade)
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  author String
+  content String
+  createdAt DateTime @default(now())
+  cardId Int
+  card KudoCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
 }
