@@ -2,12 +2,11 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 const cors = require('cors')
 const express = require('express')
-
-
 const app = express()
 app.use(express.json())
 app.use(cors())
 
+//to get each kudoboard
 app.get('/kudosboards/:id', async(req, res) => {
     const { id  } = req.params
     console.log("getting id")
@@ -17,7 +16,9 @@ app.get('/kudosboards/:id', async(req, res) => {
         });
         res.json(boardDetails)
 })
- app.put('/card/:id/upvote', async (req, res) => {
+
+// to add the upvote and increment it whenever it has been clicked on
+app.put('/card/:id/upvote', async (req, res) => {
     const { id } = req.params;
     try {
       const updatedCard = await prisma.KudoCard.update({
@@ -33,7 +34,9 @@ app.get('/kudosboards/:id', async(req, res) => {
       console.error('Error upvoting card:', error);
       res.status(500).json({ error: 'Failed to upvote card' });
     }
-  });
+});
+
+//to get cards in each board
 app.get('/kudosboards/:id/card', async(req, res) => {
     const {id} = req.params
     console.log("getting id/card")
@@ -44,6 +47,7 @@ app.get('/kudosboards/:id/card', async(req, res) => {
     res.json(card)
 })
 
+//to get each card
 app.get('/card/:id', async(req, res) => {
     const {id} = req.params
     const card = await prisma.KudoCard.findUnique({
@@ -54,6 +58,7 @@ app.get('/card/:id', async(req, res) => {
     res.json(card)
 })
 
+//to add new cards in a board
 app.post('/kudosboards/:id/card', async(req, res) => {
     const {id} = req.params;
     const {title, description, imgUrl, author} = req.body;
@@ -76,6 +81,7 @@ app.post('/kudosboards/:id/card', async(req, res) => {
     }
 })
 
+//to delete a particular card
 app.delete('/card/:id', async(req, res) => {
     try{
         const {id} = req.params
@@ -89,6 +95,7 @@ app.delete('/card/:id', async(req, res) => {
     }
 })
 
+//to get all the boards in kudosboards (using query, category if needed)
 app.get('/kudosboards', async(req, res) => {
     const {category, search} = req.query;
     let queryOptions = {}
@@ -124,8 +131,7 @@ app.get('/kudosboards', async(req, res) => {
     }
 })
 
-
-
+//to add a new board
 app.post('/kudosboards' , async(req, res) => {
     const {imageUrl, title, category, author} = req.body;
     try{
@@ -149,6 +155,7 @@ catch(error) {
 }
 });
 
+//to delete a particular board
 app.delete('/kudosboards/:id', async(req, res) => {
     try{
     const {id} = req.params
@@ -162,6 +169,7 @@ app.delete('/kudosboards/:id', async(req, res) => {
 }
 })
 
+//to add a comment in a card
 app.post('/card/:id/comment', async(req, res) => {
     const {id} = req.params;
     const {author, content} = req.body;
@@ -170,29 +178,12 @@ app.post('/card/:id/comment', async(req, res) => {
             data: {
                 content,
                 author,
-                card : {connect: {id: parseInt(id)}}
-            }
+                card : {connect: {id: parseInt(id)}}}
         });
-        res.status(201).json(newComment)
-    }
+        res.status(201).json(newComment)}
     catch(error) {
         console.log('Error creating comment: ', error);
         res.status.apply(500).json({error: 'Failed to create comment'})
-    }
-})
-
-app.get('/card/:id/comment', async(req, res) => {
-    const {id} = req.params;
-    try{
-        const comment = await prisma.Comment.findMany({
-            where: {cardId : parseInt(id)},
-            orderBy: {
-                createdAt: 'desc'
-            }
-        })
-    } catch(error) {
-        console.log('Error getting comment: ', error);
-        res.status.apply(500).json({error: 'Failed to fetch comment'})
     }
 })
 
