@@ -1,6 +1,5 @@
 import './CreateCard.css'
 import {useState} from 'react'
-
 function CreateCard({boardId, closeCard, onCreate}){
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -31,8 +30,7 @@ function CreateCard({boardId, closeCard, onCreate}){
         onCreate(newCard);
     };
     return(
-        <>
-            <div className="modal-overlay">
+        <div className="modal-overlay">
             <div className="modal-container">
             <button className="closeButton" onClick={closeCard}>&times;</button>
             <h1>Create a New Card</h1>
@@ -89,8 +87,7 @@ function CreateCard({boardId, closeCard, onCreate}){
                     <button className="submitButton">Submit</button>
                 </form>
             </div>
-            </div>
-        </>
+        </div>
     )
 }
 export default CreateCard;

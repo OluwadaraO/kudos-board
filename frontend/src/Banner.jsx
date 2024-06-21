@@ -1,6 +1,6 @@
 import './Banner.css'
 import React from 'react';
-function Banner({openModal, onCategorySelect, onSearchChange, searchText}) {
+function Banner({openModal, onCategorySelect, onSearchChange, searchText, sortBoards}) {
     return(
         <div className='banner'>
         <input
@@ -9,10 +9,9 @@ function Banner({openModal, onCategorySelect, onSearchChange, searchText}) {
             className='search-bar'
             onChange={(e) => onSearchChange(e.target.value)}
             value={searchText}/>
-            
         <div className='buttons'>
             <button className='redirect-button' onClick={() => onCategorySelect('')}>All</button>
-            <button className='redirect-button'>Recent</button>
+            <button className='redirect-button' onClick = {sortBoards}>Recent</button>
             <button className='redirect-button' onClick={() => onCategorySelect('Celebration')}>Celebration</button>
             <button className='redirect-button' onClick={() => onCategorySelect('Thank You')}>Thank You</button>
             <button className='redirect-button' onClick={() => onCategorySelect('Inspiration')}>Inspiration</button>

@@ -30,6 +30,16 @@ function HomePage() {
     setSearchText(search)
     fetchKudosBoard(category, search)
   }
+  useEffect(()=>{
+    fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/kudosboards`)
+      .then(response => response.json())
+      .then(data => setKudosBoards(data))
+      .catch(error => console.error('Error fetching boards: ', error))
+  }, [])
+  const sortBoardsbyRecent = () => {
+    const sortedBoards = [...kudosboards].sort((a, b) => b.id - a.id)
+    setKudosBoards(sortedBoards);
+  };
 
   const fetchKudosBoard = (category, searchText) => {
     const query = new URLSearchParams({
@@ -111,7 +121,7 @@ function HomePage() {
   return (
     <div className='homepage-body'>
       <Header/>
-      <Banner openModal={handleOpenModal} onCategorySelect={handleCategorySelect} onSearchChange={handleSearchChange} searchText={searchText}/>
+      <Banner openModal={handleOpenModal} onCategorySelect={handleCategorySelect} onSearchChange={handleSearchChange} searchText={searchText} sortBoards = {sortBoardsbyRecent}/>
       <div className='kudos-boards'>
         {boards}
       </div>

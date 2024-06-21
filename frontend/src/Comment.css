@@ -1,4 +1,4 @@
-.modal-overlay{
+.modalOverlay{
     color: black;
     border: 1px solid black;
     position: fixed; /* Stay in place */
@@ -8,12 +8,12 @@
     right: 0;
     top: 0;
     bottom: 0;
-    overflow: auto; 
+    overflow: auto; /* Enable scroll if needed */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     display: flex;
     flex-wrap: wrap;
 }
-.modal-container{
+.modal{
     background-color: #6B9080; /* White w/ opacity */
     margin: auto; /* Center horizontally */
     padding: 20px; /* Pad the content */
@@ -25,33 +25,21 @@
     overflow: auto;
     top: 50%;
     left: 50%;
-}
-.modal-content {
     overflow-y: auto;
-    max-height: 100vh;
+    max-height: 200vh;
 }
-.closeButton{
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+.close-button{
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
 }
-.closeButton:hover,.closeButton:focus{
+.close-button:hover, .close-button:focus{
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
-.closeButton:hover{
-    color: black;
-}
-.category{
-    padding-bottom: 30px;
-    padding-top: 30px;
-}
-.submitButton{
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-.create-a-new-board{
-    text-align: center;
+.comment-form{
+    padding-bottom: 5px;
+    padding-top: 5px;
 }

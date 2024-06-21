@@ -4,6 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 import CreateCard from './CreateCard';
 import Card from './Card';
+import Comment from './Comment';
 function KudosCardsPage(){
     const [cardDetails, setCardDetails] = useState([])
     const [boardDetails, setBoardDetails] = useState([])
@@ -89,6 +90,45 @@ function KudosCardsPage(){
             console.error('Error fetching photo:', error);
         })
     }
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isCommentOpen, setIsCommentOpen] = useState(false);
+    const [currentCardId, setCurrentCardId] = useState(null)
+    const handleOpenCard = () => {
+        setIsModalOpen(true);
+    }
+    const handleCloseCard = () => {
+        setIsModalOpen(false);
+    }
+
+    const handleOpenComment = (cardId) => {
+        setCurrentCardId(cardId)
+        setIsCommentOpen(true)
+    }
+
+    const handleCloseComment = () => {
+        setIsCommentOpen(false)
+        setCurrentCardId(null)
+    }
+
+    const handleCreateComment = (cardId, newComment) => {
+        fetch(`${import.meta.env.VITE_BACKEND_ADDRESS}/card/${cardId}/comment`, {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify(newComment)
+        })
+        .then (response => {
+            if(!response.ok) {
+                throw new Error (`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            handleCloseComment();
+        })
+        .catch(error => console.error ('Error creating comment: ', error))
+    }
 
 
     const cards = cardDetails.map(cardDetail => {
@@ -104,6 +144,7 @@ function KudosCardsPage(){
             boardId = {cardDetail.boardId}
             onDelete = {() => handleDeleteCard(cardDetail.id)}
             onUpVote = {handleUpVote}
+            onComment = {() => handleOpenComment(cardDetail.id)}
             />
         )
     })
@@ -112,14 +153,7 @@ function KudosCardsPage(){
         navigate(-1)
     };
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleOpenCard = () => {
-        setIsModalOpen(true);
-    }
-    const handleCloseCard = () => {
-        setIsModalOpen(false);
-    }
     return(
         <div>
             <Header/>
@@ -130,6 +164,7 @@ function KudosCardsPage(){
                 {cards}
             </div>
             {isModalOpen && <CreateCard boardId = {id} closeCard={handleCloseCard} onCreate={handleCreateCard}/>}
+            {isCommentOpen && <Comment cardId={currentCardId} closeCard={handleCloseComment} onCreate={handleCreateComment}/>}
             <Footer/>
         </div>
     )
