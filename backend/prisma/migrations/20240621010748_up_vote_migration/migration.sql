@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "KudoCard" ADD COLUMN     "upVote" INTEGER NOT NULL DEFAULT 0;

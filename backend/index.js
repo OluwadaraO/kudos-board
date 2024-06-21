@@ -10,11 +10,67 @@ app.use(cors())
 
 app.get('/kudosboards/:id', async(req, res) => {
     const { id  } = req.params
-    const kudocards = await prisma.KudosBoard.findUnique(
+    console.log("getting id")
+    const boardDetails = await prisma.KudosBoard.findUnique(
         {
             where: {id: parseInt(id) },
         });
-    res.status(200).json(kudocards)
+        res.json(boardDetails)
+})
+
+app.get('/kudosboards/:id/card', async(req, res) => {
+    const {id} = req.params
+    console.log("getting id/card")
+    const card = await prisma.KudoCard.findMany(
+        {
+            where: {boardId: parseInt(id)}
+        });
+    res.json(card)
+})
+
+app.get('/card/:id', async(req, res) => {
+    const {id} = req.params
+    const card = await prisma.KudoCard.findUnique({
+        where: {
+            id: parseInt(id)
+        }
+    });
+    res.json(card)
+})
+
+app.post('/kudosboards/:id/card', async(req, res) => {
+    const {id} = req.params;
+    const {title, description, imgUrl, author} = req.body;
+
+    try{
+        const newCard = await prisma.KudoCard.create({
+            data: {
+                title,
+                description,
+                imgUrl,
+                author,
+                board: {connect: {id: parseInt(id)}}
+            },
+        });
+        res.status(201).json(newCard)
+    }
+    catch(error){
+        console.error("Error fetching data:", error);
+        res.status(500).json({error: 'Failed to create board with giphy image'})
+    }
+})
+
+app.delete('/card/:id', async(req, res) => {
+    try{
+        const {id} = req.params
+        const deleteCard = await prisma.KudoCard.delete({
+            where: {id : parseInt(id)}}
+        )
+        res.status(200).json(deleteCard)
+    }catch(error) {
+        console.error('Error deleting board: ', error);
+        res.status(500).json({error: 'Failed to delete board'})
+    }
 })
 
 app.get('/kudosboards', async(req, res) => {
@@ -51,6 +107,8 @@ app.get('/kudosboards', async(req, res) => {
         res.status(500).send('Failed to fetch kudos boards');
     }
 })
+
+
 
 app.post('/kudosboards' , async(req, res) => {
     const {imageUrl, title, category, author} = req.body;

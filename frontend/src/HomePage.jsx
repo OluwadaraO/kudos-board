@@ -32,7 +32,7 @@ function HomePage() {
     fetchKudosBoard(category, search)
   }
 
-  const fetchKudosBoard = (category, search) => {
+  const fetchKudosBoard = (category, searchText) => {
     const query = new URLSearchParams({
     ...(category && {category: category}),
     ...(searchText && {search: searchText})

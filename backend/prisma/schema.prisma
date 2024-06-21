@@ -27,6 +27,7 @@ model KudoCard{
   description String
   imgUrl String
   author String
+  upVote Int @default(0)
   boardId Int
-  board KudosBoard @relation(fields: [boardId], references:[id])
+  board KudosBoard @relation(fields: [boardId], references:[id], onDelete: Cascade)
 }
